@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/gauravano/Sentiment-Analysis-backend#readme",
   "dependencies": {
-    "express": "^4.16.3"
+    "axios": "^0.18.0",
+    "express": "^4.16.3",
+    "http": "0.0.0",
+    "jquery": "^3.3.1"
   }
 }
