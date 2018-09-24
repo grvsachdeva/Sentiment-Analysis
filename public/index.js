@@ -6,7 +6,7 @@ $.post('api/analyse/',{
     test_text: test_text
   },function (data) {
     console.log(data);
-    document.getElementById('response').innerHTML = `Magnitude: ${data.magnitude} <br> Score: ${data.score}`
+    document.getElementById('response').innerHTML = `Polarity: ${data.polarity} <br> Polarity Confidence: ${data.polarity_confidence} <br> Subjectivity Confidence: ${data.subjectivity_confidence}`
 })
 
 }
