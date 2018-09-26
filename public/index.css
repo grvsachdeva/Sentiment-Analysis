@@ -1,0 +1,15 @@
+.progressbar {
+  margin: 20px;
+  width: 200px;
+  height: 200px;
+  position: relative;
+}
+
+.prop_name {
+    /*display: none;*/
+    position:absolute;
+    font-size: 18px;
+    width:100%;
+    bottom:-40;
+    text-align:center;
+}
