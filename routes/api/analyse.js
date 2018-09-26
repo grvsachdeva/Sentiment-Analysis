@@ -1,7 +1,6 @@
 const route = require('express').Router()
 
-// Google API
-
+// --------------- Google API ---------------------------------------------------
 // var axios = require('axios');
 //
 // route.post('/',(req,res) => {
@@ -25,28 +24,58 @@ const route = require('express').Router()
 //   })
 // })
 
-var AYLIENTextAPI = require('aylien_textapi');
-var textapi = new AYLIENTextAPI({
-  application_id: "a949ce6b",
-  application_key: "dd25a25ea9551592e08e8c8c76fb6487"
+
+
+// -------------- AYLIEN API -------------------
+// var AYLIENTextAPI = require('aylien_textapi');
+// var textapi = new AYLIENTextAPI({
+//   application_id: "a949ce6b",
+//   application_key: "dd25a25ea9551592e08e8c8c76fb6487"
+// });
+//
+// route.post('/',(req,res) => {
+//
+// // console.log(req.body.test_text);
+//
+// textapi.sentiment({
+//   'text': req.body.test_text
+// }, function(error, response) {
+//   if (error === null) {
+//     console.log(response);
+//     res.status(200).send(response);
+//   }else{
+//     console.log(error);
+//   }
+// });
+//
+// })
+
+var AWS = require("aws-sdk");
+var comprehend = new AWS.Comprehend({
+  accessKeyId: "AKIAJBHPIDBAZQ3XIGJQ",
+  secretAccessKey: "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",
+  region: "us-east-1"
 });
+
 
 route.post('/',(req,res) => {
 
-// console.log(req.body.test_text);
+  console.log(req.body.test_text);
+  
 
-textapi.sentiment({
-  'text': req.body.test_text
-}, function(error, response) {
-  if (error === null) {
-    console.log(response);
-    res.status(200).send(response);
-  }else{
-    console.log(error);
-  }
-});
-
+  var params = {
+    LanguageCode: "en",
+    TextList: [req.body.test_text]
+  };
+  comprehend.batchDetectSentiment(params, function(err, data) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(data.ResultList[0].SentimentScore);
+      console.log(data);
+      res.status(200).send(data.ResultList[0]);
+    }
+  });
 })
-
 
 exports = module.exports = route
