@@ -13,7 +13,7 @@ function make_chart(component, val) {
     text: {
       autoStyleContainer: false
     },
-    from: { color: '#aaa', width: 1 },
+    from: { color: '#aaa', width: 2 },
     to: { color: '#333', width: 4 },
     // Set default step function for all animate calls
     step: function(state, circle) {
@@ -21,11 +21,7 @@ function make_chart(component, val) {
       circle.path.setAttribute('stroke-width', state.width);
 
       var value = Math.round(circle.value() * 100);
-      if (value === 0) {
-        circle.setText('');
-      } else {
-        circle.setText(value);
-      }
+      circle.setText(value);
 
     }
   });
