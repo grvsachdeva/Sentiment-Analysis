@@ -21,7 +21,61 @@
   <div class="container">
     <div class="col s12">
       <div class="section">
-        <div class="row">
+        <div class="row center">
+            <ul class="tabs">
+                <li class="tab col s5"><a class="active" href="#method1">Analyse Text</a></li>
+                <li class="tab col s5"><a href="#method2">Analyse Scrapped Data</a></li>
+              </ul>
+        </div>
+      </div>
+    </div>
+    <div id="method1" class="col s12" style="border: 2px; border-color:black; ">
+        <form class="col s12">
+            <div class="row center">
+              <div class="input-field col s12">
+                <textarea id="test_text" class="materialize-textarea"></textarea>
+                <label for="test_text">Enter text you want to analyse...</label>
+              </div>
+              <button class="btn waves-effect waves-light" type="button" onclick="analyse_text()">Analyse
+                <i class="material-icons right">send</i>
+              </button>
+            </div>
+          </form>
+    </div>
+    <div id="method2" class="col s12">
+        <form class="col s8">
+            <div class="row center">
+              <div class="input-field col s6">
+                <input id="search_term" type="text"></textarea>
+                <label for="search_term">Enter term to be analysed</label>
+              </div>
+            
+              <div class="row center" style="margin-top: 20px;" >
+                <label style="margin-right: 20px;">
+                  <input type="radio" class="filled-in" checked="checked" id="website" name="website" value="gizmodo" />
+                  <span>Gizmodo</span>
+                </label>
+                <label style="margin-right: 20px;">
+                  <input type="radio" class="filled-in" id="website" name="website" value="medium" />
+                  <span>Medium</span>
+                </label>
+                <label style="margin-right: 20px;">
+                  <input type="radio" class="filled-in" id="website" name="website" value="both" />
+                  <span>Both</span>
+                </label>    
+              </div>
+    
+              <button class="btn waves-effect waves-light" type="button" onclick="analyse_scrapy()">Analyse
+                <i class="material-icons right">send</i>
+              </button>
+            </div>
+          </form>    
+    </div>
+
+  <!-- <div class="container"> -->
+    <!-- <div class="col s12">
+      <div class="section">
+        <div class="row"></div>
           <form class="col s12">
             <div class="row center">
               <div class="input-field col s12">
@@ -34,7 +88,7 @@
             </div>
           </form>
         </div>
-      </div>
+      </div> -->
       <div class="section">
         <div class="row" style="display:flex; justify-content:space-between;">
             <div id="chart1" class="progressbar">
@@ -53,7 +107,5 @@
         </div>
       </div>
     </div>
-  </div>
-
 </body>
 </html>

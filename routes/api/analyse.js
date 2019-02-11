@@ -52,8 +52,8 @@ const route = require('express').Router()
 
 var AWS = require("aws-sdk");
 var comprehend = new AWS.Comprehend({
-  accessKeyId: "AKIAJBHPIDBAZQ3XIGJQ",
-  secretAccessKey: "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",
+  accessKeyId: "AKIAJHCDGGJ4VHBHAHEA",
+  secretAccessKey: "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",
   region: "us-east-1"
 });
 
