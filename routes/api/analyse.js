@@ -1,4 +1,6 @@
 const route = require('express').Router()
+var axios = require('axios');
+var querystring = require('querystring');
 
 // --------------- Google API ---------------------------------------------------
 // var axios = require('axios');
@@ -76,6 +78,60 @@ route.post('/',(req,res) => {
       res.status(200).send(data.ResultList[0]);
     }
   });
+})
+
+
+route.post('/scrapy',(req,res) => {
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  }
+
+  const requestBody = querystring.stringify({
+      project: '373618',
+      apikey: '722c6a6fe309462498c368ff58dad14e',
+      spider: req.body.website,
+      search: req.body.search_term
+  })
+  
+axios.post('https://app.scrapinghub.com/api/run.json', requestBody, config)
+.then((res) => {
+  console.log(res);
+}).catch((error) => {
+  console.log(error);
+})
+
+
+  
+  console.log("In API: ",req.body.search_term,"  ",req.body.website);  
+
+  
+  // function callback(error, response, body) {
+  //     if (!error && response.statusCode == 200) {
+  //         console.log("Response:", body);
+  //     }else{
+  //       console.log("Error:", error);
+  //     }
+  // }
+  
+  // request(options, callback);
+  
+
+  // var params = {
+  //   LanguageCode: "en",
+  //   TextList: [req.body.test_text]
+  // };
+  // comprehend.batchDetectSentiment(params, function(err, data) {
+  //   if (err) {
+  //     console.log(err);
+  //   } else {
+  //     console.log(data.ResultList[0].SentimentScore);
+  //     console.log(data);
+  //     res.status(200).send(data.ResultList[0]);
+  //   }
+  // });
 })
 
 exports = module.exports = route
