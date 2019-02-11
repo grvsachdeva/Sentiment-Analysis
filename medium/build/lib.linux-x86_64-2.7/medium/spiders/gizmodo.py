@@ -5,16 +5,12 @@ import scrapy, pdb, sys
 class GizmodoSpider(scrapy.Spider):
     name = 'gizmodo'
     allowed_domains = ['gizmodo.com']
-    start_urls = ['https://gizmodo.com/search?q=']
     
-    def start_requests(self):
-        for url in self.start_urls:
-            yield scrapy.Request(url+self.search, dont_filter=True)
+    def __init__(self, *args, **kwargs): 
+      super(GizmodoSpider, self).__init__(*args, **kwargs) 
+      self.start_urls = [kwargs.get('search_url')]
 
     def parse(self, response):
-        if self.search_url is not None:
-            self.start_urls = self.search_url
-
         urls = response.css('.headline>a::attr(href)').extract()
         for url in urls:
             yield(scrapy.Request(url=url, callback=self.parse_article))

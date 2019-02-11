@@ -4,11 +4,10 @@ import scrapy, pdb
 class ArticlesSpider(scrapy.Spider):
     name = 'articles'
     allowed_domains = ['medium.com']
-    start_urls = ['https://medium.com/search?q=']
     
-    def start_requests(self):
-        for url in self.start_urls:
-            yield scrapy.Request(url+self.search, dont_filter=True)
+    def __init__(self, *args, **kwargs): 
+      super(ArticlesSpider, self).__init__(*args, **kwargs) 
+      self.start_urls = [kwargs.get('search_url')]
 
     def parse(self, response):
         basOrNahi = False
