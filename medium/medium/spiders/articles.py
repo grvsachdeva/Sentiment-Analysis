@@ -18,7 +18,7 @@ class ArticlesSpider(scrapy.Spider):
             yield(scrapy.Request(url=url, callback=self.parse_article))
 
     def parse_article(self, response):
-        title = response.css('h1::text').get()
+        title = response.css('h1::text').extract_first()
         content = response.css('.sectionLayout--insetColumn ::text').extract()
         article = ''.join(content)
         yield({
