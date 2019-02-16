@@ -82,6 +82,11 @@ route.post('/',(req,res) => {
 
 
 route.post('/scrapy',(req,res) => {
+  var encodedURI;
+  if(req.body.website === 'gizmodo')
+    encodedURI = "https://gizmodo.com/search?q=" + encodeURIComponent(req.body.search_term);
+  else
+    encodedURI = "https://medium.com/search?q=" + encodeURIComponent(req.body.search_term);
 
   const config = {
     headers: {
@@ -93,45 +98,20 @@ route.post('/scrapy',(req,res) => {
       project: '373618',
       apikey: '722c6a6fe309462498c368ff58dad14e',
       spider: req.body.website,
-      search: req.body.search_term
+      search_url: encodedURI 
   })
   
 axios.post('https://app.scrapinghub.com/api/run.json', requestBody, config)
 .then((res) => {
-  console.log(res);
+  console.log("Request success: ",res);
 }).catch((error) => {
-  console.log(error);
+  console.log("Error: ", error);
 })
 
 
   
   console.log("In API: ",req.body.search_term,"  ",req.body.website);  
 
-  
-  // function callback(error, response, body) {
-  //     if (!error && response.statusCode == 200) {
-  //         console.log("Response:", body);
-  //     }else{
-  //       console.log("Error:", error);
-  //     }
-  // }
-  
-  // request(options, callback);
-  
-
-  // var params = {
-  //   LanguageCode: "en",
-  //   TextList: [req.body.test_text]
-  // };
-  // comprehend.batchDetectSentiment(params, function(err, data) {
-  //   if (err) {
-  //     console.log(err);
-  //   } else {
-  //     console.log(data.ResultList[0].SentimentScore);
-  //     console.log(data);
-  //     res.status(200).send(data.ResultList[0]);
-  //   }
-  // });
 })
 
 exports = module.exports = route
