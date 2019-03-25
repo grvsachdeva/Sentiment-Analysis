@@ -36,6 +36,7 @@ function make_chart(component, val) {
 
 function analyse_text(textArray) {
   console.log("TEXTARRAY---", textArray);
+  document.getElementsByClassName('loadingbar')[0].children[1].textContent = 'Analysing data';
   let test_text;
   if (textArray == undefined) {
     test_text = document.getElementById("test_text").value;
@@ -49,7 +50,7 @@ function analyse_text(textArray) {
       test_text: test_text
     },
     function(data) {
-      console.log(data);
+      document.getElementsByClassName('loadingbar')[0].style.display = 'none';
       $(".progressbar")[0].innerHTML = "";
       $(".progressbar")[1].innerHTML = "";
       $(".progressbar")[2].innerHTML = "";
@@ -74,6 +75,7 @@ function analyse_text(textArray) {
 function analyse_scrapy() {
   let search_term = document.getElementById("search_term").value;
   let website = $("input[name='website']:checked").val();
+  document.getElementsByClassName('loadingbar')[0].style.display = 'block';
 
   console.log(search_term, " ", website);
 
