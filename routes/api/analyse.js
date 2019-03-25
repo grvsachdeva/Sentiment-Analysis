@@ -64,43 +64,34 @@ route.post("/scrapy", (req, res) => {
     search_url: encodedURI
   });
 
-  // axios.post('https://app.scrapinghub.com/api/run.json', requestBody, config)
-  // .then((result) => {
-  //   console.log("Request success: ",result);
-  //   setTimeout(function(){
+  axios.post('https://app.scrapinghub.com/api/run.json', requestBody, config)
+  .then((result) => {
+    console.log("Request success: ",result);
+    setTimeout(function(){
 
-  //       axios.get('https://app.scrapinghub.com/api/items.json', {params: req_params}).then((result) => {
-  //       console.log("DATAAA: ",JSON.stringify(result.data), "TYYYYPPPEE:", typeof(result.data),"\n-----------------------\n");
-
-  //       for(x in result.data){
-  //         console.log("XXXXXXXXX: ",x);
-  //       }
-  //       }).catch((error) => {
-  //         console.log("error", error);
-  //       })
-  //   },40000);
-  // }).catch((error) => {
-  //   console.log("Error: ", error);
-  // })
-  let textArray = [];
-  axios
-    .get("https://app.scrapinghub.com/api/items.json", { params: req_params })
-    .then(result => {
-      // console.log("DATAAA: ", result, "TYYYYPPPEE:", typeof(result.length),"\n-----------------------\n");
-
-      for (x of result.data) {
-        len = x.text.length;
-        if (len >= 1 && len <= 4000) {
-          textArray.push(x.text);
-        } else if (len >= 1 && len > 4000) {
-          textArray.push(x.text.substring(0, 4000));
-        }
-      }
-      res.send(textArray);
-    })
-    .catch(error => {
-      console.log("error", error);
-    });
+      let textArray = [];
+      axios
+        .get("https://app.scrapinghub.com/api/items.json", { params: req_params })
+        .then(result => {
+    
+          for (x of result.data) {
+            len = x.text.length;
+            if (len >= 1 && len <= 4000) {
+              textArray.push(x.text);
+            } else if (len >= 1 && len > 4000) {
+              textArray.push(x.text.substring(0, 4000));
+            }
+          }
+          res.send(textArray);
+        })
+        .catch(error => {
+          console.log("error", error);
+        });
+     
+    },40000);
+  }).catch((error) => {
+    console.log("Error: ", error);
+  })
 });
 
 exports = module.exports = route;

@@ -87,7 +87,7 @@ function analyse_scrapy() {
       website: website
     },
     function(data) {
-      console.log("calling analyse------");
+      console.log("calling analyse------", data);
       
       for(i=0;i<data.length;i++){
          $('.scrapped_content').append(`<button class="accordion">Article ${i+1}</button>
@@ -116,5 +116,4 @@ function addListeners(){
             } 
           });
         }
-       
 }
