@@ -88,7 +88,33 @@ function analyse_scrapy() {
     },
     function(data) {
       console.log("calling analyse------");
+      
+      for(i=0;i<data.length;i++){
+         $('.scrapped_content').append(`<button class="accordion">Article ${i+1}</button>
+         <div class="panel">
+           <p>${data[i]}</p>
+         </div>`);
+      }
+      addListeners();
       analyse_text(data);
     }
   );
+}
+
+function addListeners(){
+  var acc = document.getElementsByClassName("accordion");
+        var i;
+        
+        for (i = 0; i < acc.length; i++) {
+          acc[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight){
+              panel.style.maxHeight = null;
+            } else {
+              panel.style.maxHeight = panel.scrollHeight + "px";
+            } 
+          });
+        }
+       
 }
