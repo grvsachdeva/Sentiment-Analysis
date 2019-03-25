@@ -36,10 +36,11 @@ function make_chart(component, val) {
 
 function analyse_text(textArray) {
   console.log("TEXTARRAY---", textArray);
+  document.getElementsByClassName('loadingbar')[0].style.display = 'block';
   document.getElementsByClassName('loadingbar')[0].children[1].textContent = 'Analysing data';
-  let test_text;
+  let test_text = [];
   if (textArray == undefined) {
-    test_text = document.getElementById("test_text").value;
+    test_text[0] = document.getElementById("test_text").value;
   } else {
     test_text = textArray;
   }
