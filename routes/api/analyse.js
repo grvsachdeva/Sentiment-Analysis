@@ -11,7 +11,7 @@ var comprehend = new AWS.Comprehend({
 
 route.post("/", (req, res) => {
   console.log(req.body.test_text);
-
+  console.log(req.body.test_text.constructor.name);
   var params = {
     LanguageCode: "en",
     TextList: req.body.test_text
@@ -20,9 +20,30 @@ route.post("/", (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      console.log(data.ResultList[0].SentimentScore);
-      console.log(data);
-      res.status(200).send(data.ResultList[0]);
+      comprehend.batchDetectKeyPhrases(params, function(error, result) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log(result.ResultList[0].KeyPhrases);
+          console.log(result);
+          console.log(data.ResultList[0].SentimentScore);
+          console.log(data);
+          var obj = new Object();
+          obj.sentiment = data.ResultList[0];
+          obj.entities = result.ResultList[0];
+
+          //convert object to json string
+          var string = JSON.stringify(obj);
+
+          //convert string to Json Object
+          var final = JSON.parse(string);
+          console.log(final);
+          res.status(200).send(final);
+        }
+      });
+      // console.log(data.ResultList[0].SentimentScore);
+      // console.log(data);
+      // res.status(200).send(data.ResultList[0]);
     }
   });
 });
@@ -64,34 +85,35 @@ route.post("/scrapy", (req, res) => {
     search_url: encodedURI
   });
 
-  axios.post('https://app.scrapinghub.com/api/run.json', requestBody, config)
-  .then((result) => {
-    console.log("Request success: ",result);
-    setTimeout(function(){
-
-      let textArray = [];
-      axios
-        .get("https://app.scrapinghub.com/api/items.json", { params: req_params })
-        .then(result => {
-    
-          for (x of result.data) {
-            len = x.text.length;
-            if (len >= 1 && len <= 4000) {
-              textArray.push(x.text);
-            } else if (len >= 1 && len > 4000) {
-              textArray.push(x.text.substring(0, 4000));
+  axios
+    .post("https://app.scrapinghub.com/api/run.json", requestBody, config)
+    .then(result => {
+      console.log("Request success: ", result);
+      setTimeout(function() {
+        let textArray = [];
+        axios
+          .get("https://app.scrapinghub.com/api/items.json", {
+            params: req_params
+          })
+          .then(result => {
+            for (x of result.data) {
+              len = x.text.length;
+              if (len >= 1 && len <= 4000) {
+                textArray.push(x.text);
+              } else if (len >= 1 && len > 4000) {
+                textArray.push(x.text.substring(0, 4000));
+              }
             }
-          }
-          res.send(textArray);
-        })
-        .catch(error => {
-          console.log("error", error);
-        });
-     
-    },40000);
-  }).catch((error) => {
-    console.log("Error: ", error);
-  })
+            res.send(textArray);
+          })
+          .catch(error => {
+            console.log("error", error);
+          });
+      }, 60000);
+    })
+    .catch(error => {
+      console.log("Error: ", error);
+    });
 });
 
 exports = module.exports = route;

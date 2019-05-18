@@ -2,6 +2,19 @@ $(document).ready(function() {
   $(".tabs").tabs();
 });
 
+function getList(data) {
+  var str = "<table><tr><th>Score</th><th>Text</th></tr>";
+  data.KeyPhrases.forEach(entity => {
+    console.log(entity);
+    str += "<tr>";
+    str += "<td>" + entity.Score + "</td>";
+    str += "<td>" + entity.Text + "</td>";
+    str += "</tr>";
+  });
+  str += "</table>";
+  return str;
+}
+
 function make_chart(component, val) {
   console.log("comp", component, " ", "value", val);
   // progressbar.js@1.0.0 version is used
@@ -36,8 +49,9 @@ function make_chart(component, val) {
 
 function analyse_text(textArray) {
   console.log("TEXTARRAY---", textArray);
-  document.getElementsByClassName('loadingbar')[0].style.display = 'block';
-  document.getElementsByClassName('loadingbar')[0].children[1].textContent = 'Analysing data';
+  document.getElementsByClassName("loadingbar")[0].style.display = "block";
+  document.getElementsByClassName("loadingbar")[0].children[1].textContent =
+    "Analysing data";
   let test_text = [];
   if (textArray == undefined) {
     test_text[0] = document.getElementById("test_text").value;
@@ -51,24 +65,27 @@ function analyse_text(textArray) {
       test_text: test_text
     },
     function(data) {
-      document.getElementsByClassName('loadingbar')[0].style.display = 'none';
+      document.getElementsByClassName("loadingbar")[0].style.display = "none";
       $(".progressbar")[0].innerHTML = "";
       $(".progressbar")[1].innerHTML = "";
       $(".progressbar")[2].innerHTML = "";
       $(".progressbar")[3].innerHTML = "";
 
-      make_chart(chart1, data.SentimentScore.Positive);
+      make_chart(chart1, data.sentiment.SentimentScore.Positive);
       var html = `<span class='prop_name'>Positive</span>`;
       $("#chart1").append(html);
-      make_chart(chart2, data.SentimentScore.Neutral);
+      make_chart(chart2, data.sentiment.SentimentScore.Neutral);
       html = `<span class='prop_name'>Neutral</span>`;
       $("#chart2").append(html);
-      make_chart(chart3, data.SentimentScore.Negative);
+      make_chart(chart3, data.sentiment.SentimentScore.Negative);
       html = `<span class='prop_name'>Negative</span>`;
       $("#chart3").append(html);
-      make_chart(chart4, data.SentimentScore.Mixed);
+      make_chart(chart4, data.sentiment.SentimentScore.Mixed);
       html = `<span class='prop_name'>Mixed</span>`;
       $("#chart4").append(html);
+      html = getList(data.entities);
+
+      $("#list").append(html);
     }
   );
 }
@@ -76,7 +93,7 @@ function analyse_text(textArray) {
 function analyse_scrapy() {
   let search_term = document.getElementById("search_term").value;
   let website = $("input[name='website']:checked").val();
-  document.getElementsByClassName('loadingbar')[0].style.display = 'block';
+  document.getElementsByClassName("loadingbar")[0].style.display = "block";
 
   console.log(search_term, " ", website);
 
@@ -88,9 +105,10 @@ function analyse_scrapy() {
     },
     function(data) {
       console.log("calling analyse------", data);
-      
-      for(i=0;i<data.length;i++){
-         $('.scrapped_content').append(`<button class="accordion">Article ${i+1}</button>
+
+      for (i = 0; i < data.length; i++) {
+        $(".scrapped_content").append(`<button class="accordion">Article ${i +
+          1}</button>
          <div class="panel">
            <p>${data[i]}</p>
          </div>`);
@@ -101,19 +119,19 @@ function analyse_scrapy() {
   );
 }
 
-function addListeners(){
+function addListeners() {
   var acc = document.getElementsByClassName("accordion");
-        var i;
-        
-        for (i = 0; i < acc.length; i++) {
-          acc[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var panel = this.nextElementSibling;
-            if (panel.style.maxHeight){
-              panel.style.maxHeight = null;
-            } else {
-              panel.style.maxHeight = panel.scrollHeight + "px";
-            } 
-          });
-        }
+  var i;
+
+  for (i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      var panel = this.nextElementSibling;
+      if (panel.style.maxHeight) {
+        panel.style.maxHeight = null;
+      } else {
+        panel.style.maxHeight = panel.scrollHeight + "px";
+      }
+    });
+  }
 }
