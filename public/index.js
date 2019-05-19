@@ -2,18 +2,48 @@ $(document).ready(function() {
   $(".tabs").tabs();
 });
 
-function getList(data) {
-  var str = "<table><tr><th>Score</th><th>Text</th></tr>";
-  data.KeyPhrases.forEach(entity => {
-    console.log(entity);
-    str += "<tr>";
-    str += "<td>" + entity.Score + "</td>";
-    str += "<td>" + entity.Text + "</td>";
-    str += "</tr>";
-  });
-  str += "</table>";
-  return str;
+function processData(data) {
+  console.log(data.KeyPhrases);
+  let dataEntities = [];
+  for(i=0;i<15;i++){
+    let obj = {y: data.KeyPhrases[i].Score, label: data.KeyPhrases[i].Text};
+    dataEntities.push(obj);
+  };
+  make_bar_graph(dataEntities);
 }
+
+function make_bar_graph(dataEntities){
+
+    var chartContainer  = document.getElementById("chartContainer");
+
+    var chart = new CanvasJS.Chart("chartContainer", {
+        animationEnabled: true,
+        
+        title:{
+            text: "Analysis of different terms used in all the above articles"
+        },
+        axisX:{
+            interval: 1
+        },
+        axisY2:{
+            interlacedColor: "rgba(1,77,101,.2)",
+            gridColor: "rgba(1,77,101,.1)",
+            title: "Probability of terms"
+        },
+        data: [{
+            type: "bar",
+            name: "companies",
+            axisYType: "secondary",
+            color: "#014D65",
+            dataPoints: dataEntities
+            // [
+            //     { y: 3, label: "Sweden" },
+            //     { y: 7, label: "Taiwan" }
+        }]
+    });
+    chart.render();
+    
+} 
 
 function make_chart(component, val) {
   console.log("comp", component, " ", "value", val);
@@ -47,11 +77,10 @@ function make_chart(component, val) {
   bar.animate(val); // Number from 0.0 to 1.0
 }
 
-function analyse_text(textArray) {
+function analyse_text(website, search_term, textArray) {
   console.log("TEXTARRAY---", textArray);
   document.getElementsByClassName("loadingbar")[0].style.display = "block";
-  document.getElementsByClassName("loadingbar")[0].children[1].textContent =
-    "Analysing data";
+  document.getElementsByClassName("loadingbar")[0].children[1].textContent = "Analysing data";
   let test_text = [];
   if (textArray == undefined) {
     test_text[0] = document.getElementById("test_text").value;
@@ -83,9 +112,9 @@ function analyse_text(textArray) {
       make_chart(chart4, data.sentiment.SentimentScore.Mixed);
       html = `<span class='prop_name'>Mixed</span>`;
       $("#chart4").append(html);
-      html = getList(data.entities);
+      processData(data.entities);
 
-      $("#list").append(html);
+      // $("#list").append(html);
     }
   );
 }
@@ -114,7 +143,7 @@ function analyse_scrapy() {
          </div>`);
       }
       addListeners();
-      analyse_text(data);
+      analyse_text(website, search_term, data);
     }
   );
 }
