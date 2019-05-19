@@ -51,9 +51,9 @@ route.post("/", (req, res) => {
 route.post("/scrapy", (req, res) => {
   var encodedURI,
     spider_name = req.body.website;
-  if (spider_name === "gizmodo")
+  if (spider_name === "hindustantimes")
     encodedURI =
-      "https://gizmodo.com/search?q=" +
+      "https://hindustantimes.com/search?q=" +
       encodeURIComponent(req.body.search_term);
   else if (spider_name === "articles")
     encodedURI =

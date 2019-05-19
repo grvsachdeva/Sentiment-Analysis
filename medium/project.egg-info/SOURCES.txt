@@ -7,6 +7,7 @@ medium/settings.py
 medium/spiders/__init__.py
 medium/spiders/articles.py
 medium/spiders/gizmodo.py
+medium/spiders/hindustantimes.py
 medium/spiders/techradar.py
 project.egg-info/PKG-INFO
 project.egg-info/SOURCES.txt
