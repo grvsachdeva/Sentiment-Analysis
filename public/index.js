@@ -32,7 +32,7 @@ function make_bar_graph(dataEntities){
         },
         data: [{
             type: "bar",
-            name: "companies",
+            name: "Scapped terms",
             axisYType: "secondary",
             color: "#014D65",
             dataPoints: dataEntities
@@ -113,8 +113,6 @@ function analyse_text(website, search_term, textArray) {
       html = `<span class='prop_name'>Mixed</span>`;
       $("#chart4").append(html);
       processData(data.entities);
-
-      // $("#list").append(html);
     }
   );
 }

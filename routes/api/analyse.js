@@ -41,9 +41,6 @@ route.post("/", (req, res) => {
           res.status(200).send(final);
         }
       });
-      // console.log(data.ResultList[0].SentimentScore);
-      // console.log(data);
-      // res.status(200).send(data.ResultList[0]);
     }
   });
 });
@@ -109,7 +106,7 @@ route.post("/scrapy", (req, res) => {
           .catch(error => {
             console.log("error", error);
           });
-      }, 60000);
+      }, 120000);
     })
     .catch(error => {
       console.log("Error: ", error);
