@@ -106,7 +106,7 @@ route.post("/scrapy", (req, res) => {
           .catch(error => {
             console.log("error", error);
           });
-      }, 120000);
+      }, 115000);
     })
     .catch(error => {
       console.log("Error: ", error);
