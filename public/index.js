@@ -132,7 +132,7 @@ function analyse_scrapy() {
     },
     function(data) {
       console.log("calling analyse------", data);
-
+      $(".scrapped_content").empty();
       for (i = 0; i < data.length; i++) {
         $(".scrapped_content").append(`<button class="accordion">Article ${i +
           1}</button>
