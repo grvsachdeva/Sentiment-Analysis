@@ -4,8 +4,8 @@ var querystring = require("querystring");
 
 var AWS = require("aws-sdk");
 var comprehend = new AWS.Comprehend({
-  accessKeyId: "AKIAJHCDGGJ4VHBHAHEA",
-  secretAccessKey: "IjGKzgeuNyd9OjspqNvP3W4PqzjpQ7itgvAn0pa2",
+  accessKeyId: <Enter your access ID here>,
+  secretAccessKey: <Enter your access key here>,
   region: "us-east-1"
 });
 
