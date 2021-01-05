@@ -18,7 +18,7 @@
   "homepage": "https://github.com/gauravano/Sentiment-Analysis-backend#readme",
   "dependencies": {
     "aws-sdk": "^2.320.0",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "aylien_textapi": "^0.7.0",
     "express": "^4.16.3",
     "http": "0.0.0",
